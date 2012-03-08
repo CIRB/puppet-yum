@@ -13,7 +13,7 @@ class yum::client {
       context   => '/files/etc/yum.conf/main',
       changes   => $::architecture ? {
         'i386'  => 'set exclude \'*.x86_64\'',
-        default => 'set exclude \'*.i386 *.i586 *.i686\'',
+        default => 'set exclude \'*.i386 *.i586\'',
       },
   }
 
