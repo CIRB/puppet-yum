@@ -1,6 +1,6 @@
 define yum::cirbrepo($url, $descr) {
 
-  yumrepo {$url:
+  yumrepo {"cirb-repo-${name}":
     descr           => $descr,
     baseurl         => $url,
     enabled         => 1,

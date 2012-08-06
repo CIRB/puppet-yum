@@ -5,6 +5,7 @@ class yum::client {
     '6.0'   => '6',
     '6.1'   => '6',
     '6.2'   => '6',
+    '6.3'   => '6',
     default => '5',
   }
 
@@ -32,8 +33,8 @@ class yum::client {
 
   yumrepo {
     'epel':
-      descr    => 'Extra Packages for Enterprise Linux $releasever',
-      baseurl  => "http://dl.fedoraproject.org/pub/epel/\$releasever/$::architecture",
+      descr    => "Extra Packages for Enterprise Linux ${rel}",
+      baseurl  => "http://dl.fedoraproject.org/pub/epel/${rel}/$::architecture",
       enabled  => 1,
       gpgcheck => 1,
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel",
