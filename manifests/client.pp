@@ -24,10 +24,10 @@ class yum::client {
       source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-$rel";
   }
 
-  # We don't want to use RPMFORGE !
   file {
     "/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel":
-      ensure => absent,
+      ensure => present,
+      source => "puppet:///modules/yum/RPM-GPG-KEY-rpmforge-$rel";
   }
 
 
@@ -40,7 +40,12 @@ class yum::client {
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel",
       require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel"];
     'rpmforge':
-      baseurl  => absent,
+      descr    => 'RHEL $releasever - RPMforge.net - dag',
+      baseurl  => 'http://apt.sw.be/redhat/el6/en/$basearch/rpmforge',
+      enabled  => 1,
+      gpgcheck => 1,
+      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel",
+      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel"];
   }
 
 
