@@ -42,7 +42,7 @@ class yum::client {
     'rpmforge':
       descr    => 'RHEL $releasever - RPMforge.net - dag',
       baseurl  => 'http://apt.sw.be/redhat/el6/en/$basearch/rpmforge',
-      enabled  => 1,
+      enabled  => 0,
       gpgcheck => 1,
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel",
       require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel"];
