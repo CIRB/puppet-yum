@@ -24,12 +24,6 @@ class yum::client {
       source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-$rel";
   }
 
-  file {
-    "/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel":
-      ensure => present,
-      source => "puppet:///modules/yum/RPM-GPG-KEY-rpmforge-$rel";
-  }
-
 
   yumrepo {
     'epel':
@@ -39,13 +33,6 @@ class yum::client {
       gpgcheck => 1,
       gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel",
       require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel"];
-    'rpmforge':
-      descr    => 'RHEL $releasever - RPMforge.net - dag',
-      baseurl  => 'http://apt.sw.be/redhat/el6/en/$basearch/rpmforge',
-      enabled  => 0,
-      gpgcheck => 1,
-      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel",
-      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-rpmforge-$rel"];
   }
 
 
