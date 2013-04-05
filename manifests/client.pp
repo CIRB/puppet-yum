@@ -1,3 +1,7 @@
+# == Class: client
+#
+# Yum epel repo
+#
 class yum::client {
 
   $rel = $::operatingsystemrelease ?  {
@@ -19,20 +23,20 @@ class yum::client {
   }
 
   file {
-    "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel":
+    "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}":
       ensure => present,
-      source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-$rel";
+      source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-${rel}";
   }
 
 
   yumrepo {
     'epel':
       descr    => "Extra Packages for Enterprise Linux ${rel}",
-      baseurl  => "http://dl.fedoraproject.org/pub/epel/${rel}/$::architecture",
+      baseurl  => "http://dl.fedoraproject.org/pub/epel/${rel}/${::architecture}",
       enabled  => 1,
       gpgcheck => 1,
-      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel",
-      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$rel"];
+      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}",
+      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}"];
   }
 
 
