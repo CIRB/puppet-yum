@@ -10,7 +10,7 @@ class yum::client {
     '6.1'   => '6',
     '6.2'   => '6',
     '6.3'   => '6',
-    default => '5',
+    default => '6',
   }
 
   augeas {
