@@ -68,4 +68,30 @@ class yum::client {
       enabled => 0,
   }
 
+  # Remove old repo files
+  file {'/etc/yum.repos.d/cirb.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/cirb-centos.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Debuginfo.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Debuginfo.repo.off':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Media.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Media.repo.off':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Vault.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Vault.repo.off':
+    ensure => absent
+  }
+
 }
