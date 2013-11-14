@@ -4,15 +4,6 @@
 #
 class yum::client {
 
-  $rel = $::operatingsystemrelease ?  {
-    '4.3'   => '4',
-    '6.0'   => '6',
-    '6.1'   => '6',
-    '6.2'   => '6',
-    '6.3'   => '6',
-    default => '6',
-  }
-
   augeas {
     'yum_exclude':
       context   => '/files/etc/yum.conf/main',
@@ -23,20 +14,20 @@ class yum::client {
   }
 
   file {
-    "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}":
+    "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${::operatingsystemmajrelease}":
       ensure => present,
-      source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-${rel}";
+      source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-${::operatingsystemmajrelease}";
   }
 
 
   yumrepo {
     'epel':
-      descr    => "Extra Packages for Enterprise Linux ${rel}",
-      baseurl  => "http://dl.fedoraproject.org/pub/epel/${rel}/${::architecture}",
+      descr    => "Extra Packages for Enterprise Linux ${::operatingsystemmajrelease}",
+      baseurl  => "http://pulp.irisnet.be/pulp/repos/epel/${::operatingsystemmajrelease}/${::architecture}",
       enabled  => 1,
       gpgcheck => 1,
-      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}",
-      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}"];
+      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${::operatingsystemmajrelease}",
+      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${::operatingsystemmajrelease}"];
   }
 
 
