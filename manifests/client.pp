@@ -72,7 +72,7 @@ class yum::client {
     'postgres93':
       descr   => 'PostGreSQL 9.3 official Packages',
       path    => "postgresql/${rel}/${::architecture}",
-      enabled => 0,
+      enabled => 1,
   }
 
   # Remove old repo files
