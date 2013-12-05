@@ -68,6 +68,13 @@ class yum::client {
       enabled => 0,
   }
 
+  yum::cirbrepo {
+    'postgres93':
+      descr   => 'PostGreSQL 9.3 official Packages',
+      path    => "postgresql/${rel}/${::architecture}",
+      enabled => 0,
+  }
+
   # Remove old repo files
   file {'/etc/yum.repos.d/cirb.repo':
     ensure => absent
