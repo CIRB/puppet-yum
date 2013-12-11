@@ -1,15 +1,10 @@
 # == Class: client
 #
-# Yum epel repo
+# Standard Yum repos
 #
 class yum::client {
 
-  $rel = $::operatingsystemrelease ?  {
-    '4.3'   => '4',
-    '6.0'   => '6',
-    '6.1'   => '6',
-    '6.2'   => '6',
-    '6.3'   => '6',
+  $rel = $::operatingsystemmajrelease ?  {
     default => '6',
   }
   if $::architecture == 'i386' {
@@ -31,16 +26,82 @@ class yum::client {
       source => "puppet:///modules/yum/RPM-GPG-KEY-EPEL-${rel}";
   }
 
-
-  yumrepo {
+  yum::cirbrepo {
+    'os':
+      descr => 'CentOS Base',
+      path  => "CentOS/${::operatingsystemrelease}/os/${::architecture}",
+  }
+  yum::cirbrepo {
+    'updates':
+      descr => 'CentOS Updates',
+      path  => "CentOS/${::operatingsystemrelease}/os/${::architecture}",
+  }
+  yum::cirbrepo {
     'epel':
       descr    => "Extra Packages for Enterprise Linux ${rel}",
-      baseurl  => "http://dl.fedoraproject.org/pub/epel/${rel}/${::architecture}",
-      enabled  => 1,
-      gpgcheck => 1,
-      gpgkey   => "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}",
-      require  => File["/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-${rel}"];
+      path     => "epel/${rel}/${::architecture}",
+  }
+  yum::cirbrepo {
+    'cirb':
+      descr => 'CIRB Internal Packages',
+      path  => "cirb/prod/infra/${rel}/${::architecture}",
+  }
+  yum::cirbrepo {
+    'ius':
+      descr   => 'IUS Community packages',
+      path    => "ius/${rel}/${::architecture}",
+      enabled => 0,
+  }
+  yum::cirbrepo {
+    'cirb-testing':
+      descr   => 'CIRB Internal Packages (testing)',
+      path    => "cirb/testing/infra/${rel}/${::architecture}",
+      enabled => 0,
+  }
+  yum::cirbrepo {
+    'pulp':
+      descr   => 'Pulp utilities',
+      path    => "pulp/${::architecture}",
+      enabled => 0,
+  }
+  yum::cirbrepo {
+    'vendor':
+      descr   => 'Closed source Packages',
+      path    => 'vendor',
+      enabled => 0,
   }
 
+  yum::cirbrepo {
+    'postgres93':
+      descr   => 'PostGreSQL 9.3 official Packages',
+      path    => "postgresql/${rel}/${::architecture}",
+      enabled => 1,
+  }
+
+  # Remove old repo files
+  file {'/etc/yum.repos.d/cirb.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/cirb-centos.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Debuginfo.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Debuginfo.repo.off':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Media.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Media.repo.off':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Vault.repo':
+    ensure => absent
+  }
+  file {'/etc/yum.repos.d/CentOS-Vault.repo.off':
+    ensure => absent
+  }
 
 }
