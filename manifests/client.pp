@@ -40,7 +40,7 @@ class yum::client {
     'epel':
       descr    => "Extra Packages for Enterprise Linux ${rel}",
       path     => "epel/${rel}/${::architecture}",
-      exclude  => 'salt'",
+      exclude  => 'salt',
   }
   yum::cirbrepo {
     'cirb':
