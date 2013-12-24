@@ -7,14 +7,17 @@ class yum::client {
   $rel = $::operatingsystemmajrelease ?  {
     default => '6',
   }
+  if $::architecture == 'i386' {
+    $exclude = '*.x86_64'
+  }
+  else {
+    $exclude = '*.i386 *.i586'
+  }
 
   augeas {
     'yum_exclude':
-      context   => '/files/etc/yum.conf/main',
-      changes   => $::architecture ? {
-        'i386'  => 'set exclude \'*.x86_64\'',
-        default => 'set exclude \'*.i387 *.i586\'',
-      },
+      context => '/files/etc/yum.conf/main',
+      changes => "set exclude '${exclude}'"
   }
 
   file {
