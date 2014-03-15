@@ -62,7 +62,7 @@ class yum::client {
     'pulp':
       descr   => 'Pulp utilities',
       path    => "pulp/${::architecture}",
-      enabled => 0,
+      enabled => 1,
   }
   yum::cirbrepo {
     'vendor':
